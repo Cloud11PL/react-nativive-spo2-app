@@ -1,0 +1,11 @@
+rootProject.name = 'NordicRN'
+include ':react-native-get-pixel'
+project(':react-native-get-pixel').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-get-pixel/android')
+include ':react-native-pixel-color'
+project(':react-native-pixel-color').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-pixel-color/android')
+include ':image-color-picker'
+project(':image-color-picker').projectDir = new File(rootProject.projectDir, '../node_modules/image-color-picker/android')
+include ':react-native-camera'
+project(':react-native-camera').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-camera/android')
+apply from: file("../node_modules/@react-native-community/cli-platform-android/native_modules.gradle"); applyNativeModulesSettingsGradle(settings)
+include ':app'
