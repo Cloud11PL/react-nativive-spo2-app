@@ -123,6 +123,54 @@ const App = () => {
     }
   }, [processedImage]);
 
+  const hexToRGB = (hex: string) => {
+    const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+    return result
+      ? {
+          r: parseInt(result[1], 16),
+          g: parseInt(result[2], 16),
+          b: parseInt(result[3], 16),
+        }
+      : null;
+  };
+
+  const getAverageValue = async (a, b) => {
+    const colorsArray = [];
+
+    for (let i = -1; i <= 1; i++) {
+      for (let j = -1; j <= 1; j++) {
+        const color = await pickColorAt(a + i, processedImage.height - b + j);
+        console.log(color);
+        colorsArray.push(hexToRGB(color));
+      }
+    }
+
+    let red = 0;
+    let blue = 0;
+    let green = 0;
+    const length = colorsArray.length;
+
+    console.log(colorsArray);
+
+    colorsArray.forEach(color => {
+      red += color.r;
+      blue += color.b;
+      green += color.g;
+    });
+
+    const averageColor = `rgb(${Math.floor(red / length)},${Math.floor(green / length)},${
+      Math.floor(blue / length)
+    })`;
+    console.log(averageColor);
+    setColor(averageColor);
+  };
+
+  useEffect(async () => {
+    if (location && location.a) {
+      getAverageValue(location.a, location.b);
+    }
+  }, [location])
+
   const handleImagePress = (event: GestureResponderEvent) => {
     const {locationX, locationY} = event.nativeEvent;
     const {height, width, base64} = processedImage;
@@ -136,11 +184,8 @@ const App = () => {
     setLocation({
       x: locationX,
       y: locationY,
-    });
-
-    pickColorAt(a, height - b).then(color => {
-      console.log(color);
-      setColor(color);
+      a,
+      b
     });
   };
 
@@ -182,31 +227,34 @@ const App = () => {
             Hellow uwu :333333
           </Section> */}
         </View>
-        {location && (
-          <View
-            style={{
-              width: 5,
-              height: 5,
-              backgroundColor: 'red',
-              left: location.x,
-              top: location.y,
-              position: 'absolute',
-            }}
-          />
-        )}
         {showImage && processedImage && (
-          <TouchableWithoutFeedback onPress={handleImagePress}>
-            <Image
-              style={{
-                width: VIEWED_IMAGE_WIDTH,
-                height: getImageHeight(),
-                // resizeMode: 'center',
-                borderWidth: 1,
-                borderColor: 'red',
-              }}
-              source={{uri: processedImage.uri}}
-            />
-          </TouchableWithoutFeedback>
+          <>
+            {location && (
+              <View
+                style={{
+                  width: 10,
+                  height: 10,
+                  backgroundColor: 'rgba(154, 224, 255, 0.5)',
+                  left: location.x,
+                  top: location.y,
+                  position: 'absolute',
+                  zIndex: 5,
+                  borderRadius: 50,
+                }}
+              />
+            )}
+            <TouchableWithoutFeedback onPress={handleImagePress}>
+              <Image
+                style={{
+                  width: VIEWED_IMAGE_WIDTH,
+                  height: getImageHeight(),
+                  borderWidth: 1,
+                  borderColor: 'red',
+                }}
+                source={{uri: processedImage.uri}}
+              />
+            </TouchableWithoutFeedback>
+          </>
         )}
         {color && (
           <View
