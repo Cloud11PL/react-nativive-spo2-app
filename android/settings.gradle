@@ -1,4 +1,6 @@
 rootProject.name = 'NordicRN'
+include ':@react-native-community_async-storage'
+project(':@react-native-community_async-storage').projectDir = new File(rootProject.projectDir, '../node_modules/@react-native-community/async-storage/android')
 include ':react-native-get-pixel'
 project(':react-native-get-pixel').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-get-pixel/android')
 include ':react-native-pixel-color'
@@ -8,4 +10,6 @@ project(':image-color-picker').projectDir = new File(rootProject.projectDir, '..
 include ':react-native-camera'
 project(':react-native-camera').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-camera/android')
 apply from: file("../node_modules/@react-native-community/cli-platform-android/native_modules.gradle"); applyNativeModulesSettingsGradle(settings)
+include ':sp-react-native-mqtt'
+project(':sp-react-native-mqtt').projectDir = new File(rootProject.projectDir,  '../node_modules/sp-react-native-mqtt/android')
 include ':app'

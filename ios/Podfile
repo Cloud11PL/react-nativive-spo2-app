@@ -18,6 +18,8 @@ target 'NordicRN' do
 
   pod 'react-native-pixel-color', :path => '../node_modules/react-native-pixel-color'
 
+  pod 'RNCAsyncStorage', :path => '../node_modules/@react-native-community/async-storage'
+
   target 'NordicRNTests' do
     inherit! :complete
     # Pods for testing
